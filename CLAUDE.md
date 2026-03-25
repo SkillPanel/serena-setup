@@ -18,4 +18,4 @@ Skills are invoked as `/serena-setup:<skill-name>`. Testing locally: `claude --p
 
 ## Current Skills
 
-- **setup-serena** (`/serena-setup:setup-serena`) — Two-phase worktree setup: copies `.serena/` from main repo, then verifies after restart
+- **serena-setup** (`/serena-setup:serena-setup`) — Two-phase worktree setup: copies `.serena/` from main repo, then verifies after restart

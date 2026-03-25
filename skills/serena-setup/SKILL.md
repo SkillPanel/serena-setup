@@ -1,5 +1,5 @@
 ---
-name: setup-serena
+name: serena-setup
 description: "Use when: (1) starting work in a new git worktree, (2) Serena edits/reads files in wrong directory, (3) Serena's active project path doesn't match current worktree, (4) user reports 'Serena points to main repo'"
 allowed-tools: Bash(*/setup-serena.sh), mcp__serena__check_onboarding_performed, mcp__serena__onboarding, mcp__serena__write_memory, mcp__serena__list_memories, mcp__serena__list_dir
 ---

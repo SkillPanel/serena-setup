@@ -10,13 +10,15 @@ Claude Code plugin that makes [Serena MCP](https://github.com/oraios/serena) wor
 
 You use git worktrees to work on multiple branches in parallel. You use Serena for semantic code navigation in Claude Code. But when you open a worktree, Serena keeps reading and editing files in your main repo — not the worktree you're actually working in.
 
-This happens because Serena locks its project path at startup and ignores worktrees entirely. The result: Claude's edits land in the wrong directory, and you don't notice until something breaks.
-
 ## What This Plugin Does
 
-One slash command — `/serena-setup:serena-setup` — and Serena works in your worktree. The plugin handles everything: copying config, syncing cache and memories, verifying MCP registration, and confirming the setup after restart.
+One slash command — `/serena-setup:serena-setup` — and Serena works in your worktree. The plugin:
 
-No manual file copying. No guessing which flags are missing. No silent edits in the wrong repo.
+- Copies pre-indexed cache from the main repo (avoids re-indexing)
+- Installs a `post-checkout` git hook so future worktrees get cache automatically
+- Activates the project in Serena for the current session
+
+No restart required. No manual file copying.
 
 ## Quick Start
 
@@ -28,7 +30,34 @@ claude plugin add --global gh:SkillPanel/claude-plugins
 /serena-setup:serena-setup
 ```
 
-The plugin guides you through a two-step process (run → restart → run again) because Serena requires a fresh session to pick up the new project path.
+Run it once in the main repo to install the hook — future worktrees created with `claude -w` will have cache ready automatically.
+
+## Setting Up a New Repo
+
+**1. Register Serena MCP globally (once):**
+
+```bash
+claude mcp add --scope user serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context=claude-code --project-from-cwd
+```
+
+**2. In your repo, pre-index the project:**
+
+```bash
+uvx --from git+https://github.com/oraios/serena serena project index --timeout 300
+```
+
+**3. Run Serena onboarding** — start Claude Code and ask "run Serena onboarding".
+
+**4. Commit Serena config to git:**
+
+```bash
+git add .serena/project.yml .serena/memories/
+git commit -m 'chore: track serena config'
+```
+
+**5. Install the post-checkout hook** — run `/serena-setup:serena-setup` in the main repo.
+
+Now `claude -w` will create worktrees with cache ready. Run `/serena-setup:serena-setup` in the worktree to activate the project.
 
 ## Requirements
 

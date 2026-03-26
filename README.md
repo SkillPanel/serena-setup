@@ -14,7 +14,7 @@ You use git worktrees to work on multiple branches in parallel. You use Serena f
 
 One slash command — `/serena-setup:serena-setup` — and Serena works in your worktree. The plugin:
 
-- Copies pre-indexed cache from the main repo (avoids re-indexing)
+- Copies pre-indexed cache and memories from the main repo (avoids re-indexing and onboarding)
 - Installs a `post-checkout` git hook so future worktrees get cache automatically
 - Activates the project in Serena for the current session
 
@@ -24,7 +24,8 @@ No restart required. No manual file copying.
 
 ```bash
 # Install once
-claude plugin add --global gh:SkillPanel/claude-plugins
+claude plugin marketplace add gh:SkillPanel/claude-plugins
+claude plugin install serena-setup
 
 # In any git worktree, start Claude Code and run:
 /serena-setup:serena-setup
@@ -67,24 +68,17 @@ Now `claude -w` will create worktrees with cache ready. Run `/serena-setup:seren
 
 ## Installation
 
-**Via marketplace (recommended):**
-
-```
-/plugin marketplace add SkillPanel/claude-plugins
-/plugin install serena-setup@serena-setup
-```
-
-**Direct install:**
-
 ```bash
-claude plugin add --global gh:SkillPanel/claude-plugins
+# Add marketplace and install plugin
+claude plugin marketplace add gh:SkillPanel/claude-plugins
+claude plugin install serena-setup
 ```
 
 **Local development:**
 
 ```bash
 git clone https://github.com/SkillPanel/claude-plugins.git
-claude --plugin-dir ./serena-setup
+claude --plugin-dir ./claude-plugins
 ```
 
 ## License

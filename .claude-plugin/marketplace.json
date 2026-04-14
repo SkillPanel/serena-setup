@@ -1,20 +1,23 @@
 {
-  "name": "serena-setup",
+  "name": "skillpanel-claude-plugins",
   "owner": {
     "name": "SkillPanel"
   },
   "metadata": {
-    "description": "Configures Serena MCP to work correctly in git worktrees"
+    "description": "Claude Code plugins from SkillPanel"
   },
   "plugins": [
     {
       "name": "serena-setup",
-      "source": {
-        "source": "github",
-        "repo": "SkillPanel/claude-plugins"
-      },
+      "source": "./plugins/serena-setup",
       "description": "Configures Serena MCP to work correctly in git worktrees",
       "version": "1.1.0"
+    },
+    {
+      "name": "jdtls-lombok-fix",
+      "source": "./plugins/jdtls-lombok-fix",
+      "description": "Patches Claude Code's jdtls-lsp plugin to load Lombok's javaagent, eliminating false-positive Lombok diagnostics",
+      "version": "1.0.0"
     }
   ]
 }

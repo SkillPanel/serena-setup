@@ -52,7 +52,6 @@ def find_lombok_jar() -> Path | None:
     )
     for vdir in version_dirs:
         for jar in vdir.glob("lombok-*.jar"):
-            # Skip -sources.jar and -javadoc.jar
             if "-sources" in jar.name or "-javadoc" in jar.name:
                 continue
             return jar
@@ -60,12 +59,11 @@ def find_lombok_jar() -> Path | None:
 
 
 def main() -> int:
-    if not MARKETPLACE.is_file():
-        print("marketplace-missing")
-        return 0
-
     try:
         data = json.loads(MARKETPLACE.read_text())
+    except FileNotFoundError:
+        print("marketplace-missing")
+        return 0
     except json.JSONDecodeError as exc:
         print(f"marketplace-invalid: {exc}")
         return 1
@@ -97,13 +95,11 @@ def main() -> int:
         print("no-lombok-jar")
         return 1
 
-    # Back up the original before touching it
     backup = MARKETPLACE.parent / f"marketplace.json.bak-{int(time.time())}"
     shutil.copy2(MARKETPLACE, backup)
 
     args.append(f"--jvm-arg=-javaagent:{jar}")
     jdtls["args"] = args
-    plugin["lspServers"]["jdtls"] = jdtls
 
     # Atomic write: tmp file + rename
     tmp = MARKETPLACE.with_suffix(".json.tmp")

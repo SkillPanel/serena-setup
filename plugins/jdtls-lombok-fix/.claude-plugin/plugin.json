@@ -1,0 +1,8 @@
+{
+  "name": "jdtls-lombok-fix",
+  "description": "Patches Claude Code's jdtls-lsp plugin to load Lombok's javaagent, eliminating false-positive Lombok diagnostics",
+  "version": "1.0.0",
+  "author": {
+    "name": "SkillPanel"
+  }
+}
